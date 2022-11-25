@@ -29,12 +29,14 @@ class MainViewModel(
             mutableLiveData.value = loadingState
             val result = interactor.getDataState()
             mutableLiveData.value = result
-            if (result is State.Loaded<List<Photo>>) {
-                Log.d("ELDAR", result.getData().toString())
-            }
-            if (result is State.Error<List<Photo>>) {
-                Log.d("ELDAR", result.getErrorMessage())
-            }
+        }
+    }
+
+    fun deleteData(photo: Photo) {
+        if (mutableLiveData.value is State.Loaded<List<Photo>>) {
+            val list = (mutableLiveData.value as State.Loaded<List<Photo>>).getData().toTypedArray()
+
+            mutableLiveData.value = State.Loaded(list.filter { it != photo }.toList())
         }
     }
 }

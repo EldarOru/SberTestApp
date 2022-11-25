@@ -1,16 +1,16 @@
 package com.example.sbertestapp
 
-import android.graphics.Color
 import android.os.Bundle
+import android.util.Log
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
 import androidx.compose.foundation.Image
+import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
 import androidx.compose.material.*
 import androidx.compose.material.icons.Icons
-import androidx.compose.material.icons.filled.Add
 import androidx.compose.material.icons.filled.Search
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
@@ -20,7 +20,6 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color.Companion.Blue
 import androidx.compose.ui.graphics.Color.Companion.Gray
-import androidx.compose.ui.graphics.Color.Companion.LightGray
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.text.style.TextAlign
@@ -89,7 +88,7 @@ fun Main() {
         ) {
             when (val s = state) {
                 is State.Error<List<Photo>> -> ErrorState(s.getErrorMessage())
-                is State.Loaded<List<Photo>> -> LoadedState(s.getData())
+                is State.Loaded<List<Photo>> -> LoadedState(s.getData(), viewModel)
                 is State.IsLoading<List<Photo>> -> LoadState()
                 is State.Default<List<Photo>> -> DefaultState()
             }
@@ -103,26 +102,38 @@ fun SetState() {
 }
 
 @Composable
-fun PhotoCard(photo: Photo) {
-    Image(
-        painter = rememberAsyncImagePainter(photo.url),
-        contentDescription = null,
-        modifier = Modifier.size(300.dp),
-        contentScale = ContentScale.Fit
-    )
+fun PhotoCard(photo: Photo, viewModel: MainViewModel) {
+    Column(
+        verticalArrangement = Arrangement.Center,
+        horizontalAlignment = Alignment.CenterHorizontally,
+        modifier = Modifier
+            .fillMaxWidth()
+            .padding(20.dp)
+            .clickable {
+                viewModel.deleteData(photo)
+            }
+    ) {
+        Image(
+            painter = rememberAsyncImagePainter(photo.url),
+            contentDescription = null,
+            modifier = Modifier.size(300.dp),
+            contentScale = ContentScale.Fit
+        )
+    }
 }
 
 @Composable
-fun LoadedState(state: List<Photo>) {
+fun LoadedState(state: List<Photo>, viewModel: MainViewModel) {
 
     val photos = remember { state }
+    Log.d("KEK", photos.toString())
     LazyColumn(
         contentPadding = PaddingValues(horizontal = 16.dp, vertical = 8.dp)
     ) {
         items(
-            items = photos
+            items = state
         ) {
-            PhotoCard(it)
+            PhotoCard(it, viewModel)
         }
     }
 }
@@ -155,7 +166,7 @@ fun LoadState() {
                 .fillMaxWidth()
                 .height(15.dp),
             backgroundColor = Blue,
-            color = Gray //progress color
+            color = Gray
         )
     }
 }

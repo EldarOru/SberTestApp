@@ -7,10 +7,10 @@ data class PhotoModel(
     private val urls: Urls
 ) : Map<Photo> {
 
-    override fun toMap(): Photo = Photo(urls.full)
+    override fun toMap(): Photo = Photo(id, urls.regular)
 
     inner class Urls(
-        val full: String
+        val regular: String
     )
 }
 
