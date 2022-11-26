@@ -16,30 +16,44 @@ import com.example.sbertestapp.ui.entities.Photo
 import com.example.sbertestapp.ui.handleerror.FailureFactory
 import com.example.sbertestapp.ui.handleerror.FailureHandler
 import dagger.Module
+import dagger.Provides
+import javax.inject.Singleton
 
 @Module
 class MainModule {
 
+    @Provides
+    @Singleton
     fun provideRemoteDataSource(retrofitService: RetrofitService): RemoteDataSource<PhotoModel> {
         return RemoteDataSourceImpl(retrofitService)
     }
 
+    @Provides
+    @Singleton
     fun provideRetrofit(): RetrofitService {
         return RetrofitClient().retrofitServices
     }
 
+    @Provides
+    @Singleton
     fun provideRepository(remoteDataSource: RemoteDataSource<PhotoModel>): Repository<PhotoModel> {
         return RepositoryImpl(remoteDataSource)
     }
 
+    @Provides
+    @Singleton
     fun provideResourceManager(context: Context): ResourceManager {
         return ResourceManagerImpl(context)
     }
 
+    @Provides
+    @Singleton
     fun provideFailureHandler(resourceManager: ResourceManager): FailureHandler {
         return FailureFactory(resourceManager)
     }
 
+    @Provides
+    @Singleton
     fun provideInteractor(repository: Repository<PhotoModel>, failureHandler: FailureHandler): Interactor<List<Photo>> {
         return InteractorImpl(repository, failureHandler)
     }

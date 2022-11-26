@@ -24,7 +24,9 @@ import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
+import androidx.lifecycle.ViewModelProvider
 import coil.compose.rememberAsyncImagePainter
+import com.example.sbertestapp.App
 import com.example.sbertestapp.data.datasource.net.RemoteDataSourceImpl
 import com.example.sbertestapp.data.datasource.net.RetrofitClient
 import com.example.sbertestapp.data.repositories.RepositoryImpl
@@ -35,25 +37,44 @@ import com.example.sbertestapp.ui.entities.State
 import com.example.sbertestapp.ui.appresources.ResourceManagerImpl
 import com.example.sbertestapp.ui.handleerror.FailureFactory
 import com.example.sbertestapp.ui.theme.SberTestAppTheme
+import com.example.sbertestapp.ui.viewmodels.ViewModelFactory
+import javax.inject.Inject
 
 class MainActivity : ComponentActivity() {
+
+    @Inject
+    lateinit var vmFactory: ViewModelFactory
+
+    lateinit var viewModel: MainViewModel<Photo>
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
+        (applicationContext as App).appComponent.inject(this)
+
+        viewModel = ViewModelProvider(this, vmFactory)
+            .get(MainViewModel::class.java) as MainViewModel<Photo>
+
+        viewModel.init()
+
         setContent {
-            Main()
+            Main(viewModel)
         }
     }
 }
 
 @Composable
-fun Main() {
+fun Main(viewModel: MainViewModel<Photo>) {
     SberTestAppTheme {
+
+        /*
         val remoteDataSourceImpl = RemoteDataSourceImpl(RetrofitClient().retrofitServices)
         val repositoryImpl = RepositoryImpl(remoteDataSourceImpl)
         val resourceManagerImpl = ResourceManagerImpl(context = LocalContext.current)
         val handler = FailureFactory(resourceManagerImpl)
         val interactorImpl = InteractorImpl(repositoryImpl, handler)
         val viewModel = MainViewModel(interactorImpl).also { it.init() }
+
+         */
 
         val state by viewModel.liveData.observeAsState()
 
