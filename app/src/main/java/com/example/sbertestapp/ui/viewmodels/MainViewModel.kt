@@ -1,11 +1,8 @@
-package com.example.sbertestapp.ui
+package com.example.sbertestapp.ui.viewmodels
 
-import android.util.Log
-import androidx.lifecycle.LiveData
-import androidx.lifecycle.MutableLiveData
-import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import com.example.sbertestapp.domain.Interactor
+import com.example.sbertestapp.domain.interactors.Interactor
+import com.example.sbertestapp.ui.entities.State
 import kotlinx.coroutines.CoroutineDispatcher
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch

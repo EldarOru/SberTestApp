@@ -1,6 +1,6 @@
-package com.example.sbertestapp.ui
+package com.example.sbertestapp.ui.entities
 
-import com.example.sbertestapp.data.Failure
+import com.example.sbertestapp.ui.handleerror.Failure
 
 sealed class State<T> {
 

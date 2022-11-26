@@ -1,4 +1,4 @@
-package com.example.sbertestapp.data
+package com.example.sbertestapp.ui.handleerror
 
 interface FailureHandler {
 

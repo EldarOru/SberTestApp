@@ -1,6 +1,6 @@
-package com.example.sbertestapp.data
+package com.example.sbertestapp.data.models
 
-import com.example.sbertestapp.ui.Photo
+import com.example.sbertestapp.ui.entities.Photo
 
 data class PhotoModel(
     private val id: String,

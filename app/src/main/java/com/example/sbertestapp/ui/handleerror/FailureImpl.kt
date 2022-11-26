@@ -1,7 +1,8 @@
-package com.example.sbertestapp.data
+package com.example.sbertestapp.ui.handleerror
 
 import androidx.annotation.StringRes
 import com.example.sbertestapp.R
+import com.example.sbertestapp.ui.appresources.ResourceManager
 
 abstract class FailureImpl(private val resourceManager: ResourceManager) : Failure {
 

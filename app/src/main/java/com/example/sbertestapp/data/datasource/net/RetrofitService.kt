@@ -1,5 +1,6 @@
-package com.example.sbertestapp.data
+package com.example.sbertestapp.data.datasource.net
 
+import com.example.sbertestapp.data.models.PhotoModel
 import retrofit2.http.GET
 import retrofit2.http.Query
 

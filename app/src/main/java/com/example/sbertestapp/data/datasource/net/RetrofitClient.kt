@@ -1,4 +1,4 @@
-package com.example.sbertestapp.data
+package com.example.sbertestapp.data.datasource.net
 
 import retrofit2.Retrofit
 import retrofit2.converter.gson.GsonConverterFactory

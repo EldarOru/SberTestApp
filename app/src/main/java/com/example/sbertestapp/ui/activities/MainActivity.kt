@@ -1,4 +1,4 @@
-package com.example.sbertestapp
+package com.example.sbertestapp.ui.activities
 
 import android.os.Bundle
 import android.util.Log
@@ -25,11 +25,15 @@ import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import coil.compose.rememberAsyncImagePainter
-import com.example.sbertestapp.data.*
-import com.example.sbertestapp.domain.InteractorImpl
-import com.example.sbertestapp.ui.MainViewModel
-import com.example.sbertestapp.ui.Photo
-import com.example.sbertestapp.ui.State
+import com.example.sbertestapp.data.datasource.net.RemoteDataSourceImpl
+import com.example.sbertestapp.data.datasource.net.RetrofitClient
+import com.example.sbertestapp.data.repositories.RepositoryImpl
+import com.example.sbertestapp.domain.interactors.InteractorImpl
+import com.example.sbertestapp.ui.viewmodels.MainViewModel
+import com.example.sbertestapp.ui.entities.Photo
+import com.example.sbertestapp.ui.entities.State
+import com.example.sbertestapp.ui.appresources.ResourceManagerImpl
+import com.example.sbertestapp.ui.handleerror.FailureFactory
 import com.example.sbertestapp.ui.theme.SberTestAppTheme
 
 class MainActivity : ComponentActivity() {
@@ -41,34 +45,6 @@ class MainActivity : ComponentActivity() {
     }
 }
 
-/*
-@Preview(showBackground = true)
-@Composable
-fun DefaultPreview() {
-    SberTestAppTheme {
-        Greeting("Android")
-    }
-}
-
- */
-
-/*
-@Composable
-fun PhotoContent() {
-    val puppies = remember { DataProvider.puppyList }
-    LazyColumn(
-        contentPadding = PaddingValues(horizontal = 16.dp, vertical = 8.dp)
-    ) {
-        items(
-            items = puppies,
-            itemContent = {
-                PuppyListItem(puppy = it)
-            })
-    }
-}
-
- */
-
 @Composable
 fun Main() {
     SberTestAppTheme {
@@ -77,7 +53,7 @@ fun Main() {
         val resourceManagerImpl = ResourceManagerImpl(context = LocalContext.current)
         val handler = FailureFactory(resourceManagerImpl)
         val interactorImpl = InteractorImpl(repositoryImpl, handler)
-        val viewModel = MainViewModel(interactorImpl)
+        val viewModel = MainViewModel(interactorImpl).also { it.init() }
 
         val state by viewModel.liveData.observeAsState()
 
@@ -86,18 +62,19 @@ fun Main() {
                 FloatingActionButton(viewModel)
             }
         ) {
-            when (val s = state) {
-                is State.Error<List<Photo>> -> ErrorState(s.getErrorMessage())
-                is State.Loaded<List<Photo>> -> LoadedState(s.getData(), viewModel)
-                is State.IsLoading<List<Photo>> -> LoadState()
-                is State.Default<List<Photo>> -> DefaultState()
-            }
+            SetState(s = state!!, viewModel = viewModel)
         }
     }
 }
 
 @Composable
-fun SetState() {
+fun SetState(s: State<List<Photo>>, viewModel: MainViewModel<Photo>) {
+    when (s) {
+        is State.Error<List<Photo>> -> ErrorState(s.getErrorMessage())
+        is State.Loaded<List<Photo>> -> LoadedState(s.getData(), viewModel)
+        is State.IsLoading<List<Photo>> -> LoadState()
+        is State.Default<List<Photo>> -> DefaultState()
+    }
 
 }
 

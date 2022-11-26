@@ -1,10 +1,10 @@
-package com.example.sbertestapp.domain
+package com.example.sbertestapp.domain.interactors
 
-import com.example.sbertestapp.data.FailureHandler
-import com.example.sbertestapp.data.PhotoModel
-import com.example.sbertestapp.data.Repository
-import com.example.sbertestapp.ui.Photo
-import com.example.sbertestapp.ui.State
+import com.example.sbertestapp.ui.handleerror.FailureHandler
+import com.example.sbertestapp.data.models.PhotoModel
+import com.example.sbertestapp.data.repositories.Repository
+import com.example.sbertestapp.ui.entities.Photo
+import com.example.sbertestapp.ui.entities.State
 
 //TODO ИСПРАВИТЬ
 class InteractorImpl(
