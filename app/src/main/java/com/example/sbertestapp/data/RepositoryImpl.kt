@@ -3,9 +3,9 @@ package com.example.sbertestapp.data
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.withContext
 
-class RepositoryImpl(private val remoteDataSource: RemoteDataSource<PhotoModel>): Repository<PhotoModel> {
+class RepositoryImpl<T>(private val remoteDataSource: RemoteDataSource<T>): Repository<T> {
 
-    override suspend fun getListData(): List<PhotoModel> =
+    override suspend fun getListData(): List<T> =
         withContext(Dispatchers.IO) {
             remoteDataSource.getListData()
         }

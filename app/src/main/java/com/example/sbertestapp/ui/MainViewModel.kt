@@ -10,33 +10,31 @@ import kotlinx.coroutines.CoroutineDispatcher
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 
-class MainViewModel(
-    private val interactor: Interactor<List<Photo>>,
-    private val dispatcher: CoroutineDispatcher = Dispatchers.Main
-): ViewModel() {
+class MainViewModel<T>(
+    interactor: Interactor<List<T>>,
+    dispatcher: CoroutineDispatcher = Dispatchers.Main
+): AbstractViewModel<T>(
+    interactor, dispatcher
+){
 
-    private val mutableLiveData = MutableLiveData<State<List<Photo>>>()
-    val liveData: LiveData<State<List<Photo>>>
-    get() = mutableLiveData
-
-    init {
-        mutableLiveData.value = State.Default()
-    }
-
-    fun fetchData() {
+    override fun fetchData() {
         viewModelScope.launch(dispatcher) {
-            val loadingState = State.IsLoading<List<Photo>>()
+            val loadingState = State.IsLoading<List<T>>()
             mutableLiveData.value = loadingState
             val result = interactor.getDataState()
             mutableLiveData.value = result
         }
     }
 
-    fun deleteData(photo: Photo) {
-        if (mutableLiveData.value is State.Loaded<List<Photo>>) {
-            val list = (mutableLiveData.value as State.Loaded<List<Photo>>).getData().toTypedArray()
+    override fun init() {
+        mutableLiveData.value = State.Default()
+    }
 
-            mutableLiveData.value = State.Loaded(list.filter { it != photo }.toList())
+    override fun deleteItem(item: T) {
+        if (mutableLiveData.value is State.Loaded<List<T>>) {
+            val list = (mutableLiveData.value as State.Loaded<List<T>>).getData()
+
+            mutableLiveData.value = State.Loaded(list.filter { it != item }.toList())
         }
     }
 }

@@ -6,6 +6,7 @@ import com.example.sbertestapp.data.Repository
 import com.example.sbertestapp.ui.Photo
 import com.example.sbertestapp.ui.State
 
+//TODO ИСПРАВИТЬ
 class InteractorImpl(
     private val repository: Repository<PhotoModel>,
     private val handler: FailureHandler

@@ -102,7 +102,7 @@ fun SetState() {
 }
 
 @Composable
-fun PhotoCard(photo: Photo, viewModel: MainViewModel) {
+fun PhotoCard(photo: Photo, viewModel: MainViewModel<Photo>) {
     Column(
         verticalArrangement = Arrangement.Center,
         horizontalAlignment = Alignment.CenterHorizontally,
@@ -110,7 +110,7 @@ fun PhotoCard(photo: Photo, viewModel: MainViewModel) {
             .fillMaxWidth()
             .padding(20.dp)
             .clickable {
-                viewModel.deleteData(photo)
+                viewModel.deleteItem(photo)
             }
     ) {
         Image(
@@ -123,8 +123,7 @@ fun PhotoCard(photo: Photo, viewModel: MainViewModel) {
 }
 
 @Composable
-fun LoadedState(state: List<Photo>, viewModel: MainViewModel) {
-
+fun LoadedState(state: List<Photo>, viewModel: MainViewModel<Photo>) {
     val photos = remember { state }
     Log.d("KEK", photos.toString())
     LazyColumn(
@@ -192,7 +191,7 @@ fun DefaultState() {
 }
 
 @Composable
-fun FloatingActionButton(viewModel: MainViewModel) {
+fun FloatingActionButton(viewModel: MainViewModel<Photo>) {
     return ExtendedFloatingActionButton(
         icon = { Icon(Icons.Filled.Search, contentDescription = "Find") },
         text = { Text("Find") },
