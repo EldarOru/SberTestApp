@@ -10,9 +10,13 @@ import kotlinx.coroutines.launch
 class MainViewModel<T>(
     interactor: Interactor<List<T>>,
     dispatcher: CoroutineDispatcher = Dispatchers.Main
-): AbstractViewModel<T>(
+) : AbstractViewModel<T>(
     interactor, dispatcher
-){
+) {
+
+    init {
+        mutableLiveData.value = State.Default()
+    }
 
     override fun fetchData() {
         viewModelScope.launch(dispatcher) {
@@ -23,14 +27,9 @@ class MainViewModel<T>(
         }
     }
 
-    override fun init() {
-        mutableLiveData.value = State.Default()
-    }
-
     override fun deleteItem(item: T) {
         if (mutableLiveData.value is State.Loaded<List<T>>) {
             val list = (mutableLiveData.value as State.Loaded<List<T>>).getData()
-
             mutableLiveData.value = State.Loaded(list.filter { it != item }.toList())
         }
     }

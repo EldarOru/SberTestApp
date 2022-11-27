@@ -54,7 +54,10 @@ class MainModule {
 
     @Provides
     @Singleton
-    fun provideInteractor(repository: Repository<PhotoModel>, failureHandler: FailureHandler): Interactor<List<Photo>> {
+    fun provideInteractor(
+        repository: Repository<PhotoModel>,
+        failureHandler: FailureHandler
+    ): Interactor<List<Photo>> {
         return InteractorImpl(repository, failureHandler)
     }
 }

@@ -6,6 +6,7 @@ import com.example.sbertestapp.ui.entities.Photo
 import com.example.sbertestapp.ui.viewmodels.ViewModelFactory
 import dagger.Module
 import dagger.Provides
+import javax.inject.Singleton
 
 @Module
 class AppModule(private val context: Context) {
@@ -14,6 +15,7 @@ class AppModule(private val context: Context) {
     fun provideContext() = context
 
     @Provides
+    @Singleton
     fun provideMainViewModelFactory(interactor: Interactor<List<Photo>>): ViewModelFactory {
         return ViewModelFactory(interactor)
     }

@@ -6,7 +6,6 @@ import com.example.sbertestapp.data.repositories.Repository
 import com.example.sbertestapp.ui.entities.Photo
 import com.example.sbertestapp.ui.entities.State
 
-//TODO ИСПРАВИТЬ
 class InteractorImpl(
     private val repository: Repository<PhotoModel>,
     private val handler: FailureHandler
@@ -14,7 +13,7 @@ class InteractorImpl(
 
     override suspend fun getDataState(): State<List<Photo>> {
         return try {
-            State.Loaded(repository.getListData().map { it.toMap() })
+            State.Loaded(repository.getListData().map { it.map() })
         } catch (e: Exception) {
             State.Error(handler.handle(e))
         }

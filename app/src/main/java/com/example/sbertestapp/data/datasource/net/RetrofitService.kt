@@ -12,7 +12,8 @@ interface RetrofitService {
     ): List<PhotoModel>
 
     companion object {
-        //todo hide key
+        //todo hide key in local properties
+        //but for now let it be here
         const val CLIENT_ID = "kbdLo5fTjxscbcPFhGoKZSve1Jry7YK69UhT-KVDKFY"
     }
 }

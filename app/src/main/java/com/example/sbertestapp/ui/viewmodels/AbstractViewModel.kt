@@ -17,8 +17,6 @@ abstract class AbstractViewModel<T>(
     val liveData: LiveData<State<List<T>>>
         get() = mutableLiveData
 
-    abstract fun init()
-
     abstract fun fetchData()
 
     abstract fun deleteItem(item: T)

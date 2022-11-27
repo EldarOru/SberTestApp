@@ -3,4 +3,6 @@
     <string name="no_connection">No internet connection</string>
     <string name="service_unavailable">Service in unavailable</string>
     <string name="generic_fail_message">Error</string>
+    <string name="find">Find</string>
+    <string name="welcome">Welcome</string>
 </resources>

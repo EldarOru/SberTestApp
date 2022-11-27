@@ -7,7 +7,7 @@ import com.example.sbertestapp.ui.entities.Photo
 
 class ViewModelFactory(
     private val interactor: Interactor<List<Photo>>
-): ViewModelProvider.Factory {
+) : ViewModelProvider.Factory {
 
     override fun <T : ViewModel> create(modelClass: Class<T>): T {
         return MainViewModel(
