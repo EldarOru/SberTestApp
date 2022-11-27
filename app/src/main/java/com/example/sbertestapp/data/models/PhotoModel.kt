@@ -9,7 +9,7 @@ data class PhotoModel(
 
     override fun map(): Photo = Photo(id, urls.regular)
 
-    inner class Urls(
+    class Urls(
         val regular: String
     )
 }

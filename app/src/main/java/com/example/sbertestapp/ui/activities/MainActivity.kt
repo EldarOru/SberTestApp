@@ -42,7 +42,7 @@ class MainActivity : ComponentActivity() {
     @Inject
     lateinit var vmFactory: ViewModelFactory
 
-    private lateinit var viewModel: MainViewModel<Photo>
+    private lateinit var viewModel: MainViewModel
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -50,7 +50,7 @@ class MainActivity : ComponentActivity() {
         (applicationContext as ProvideInjection).handle().inject(this)
 
         viewModel = (ViewModelProvider(this, vmFactory)
-            .get(MainViewModel::class.java) as MainViewModel<Photo>)
+            .get(MainViewModel::class.java))
 
         setContent {
             Main(viewModel)
@@ -59,7 +59,7 @@ class MainActivity : ComponentActivity() {
 }
 
 @Composable
-private fun Main(viewModel: MainViewModel<Photo>) {
+private fun Main(viewModel: MainViewModel) {
     SberTestAppTheme {
         val state by viewModel.liveData.observeAsState()
 
@@ -74,18 +74,18 @@ private fun Main(viewModel: MainViewModel<Photo>) {
 }
 
 @Composable
-private fun SetState(s: State<List<Photo>>, viewModel: MainViewModel<Photo>) {
+private fun SetState(s: State<List<Photo>>, viewModel: MainViewModel) {
     when (s) {
-        is State.Error<List<Photo>> -> ErrorState(s.getErrorMessage())
-        is State.Loaded<List<Photo>> -> LoadedState(s.getData(), viewModel)
-        is State.IsLoading<List<Photo>> -> LoadState()
-        is State.Default<List<Photo>> -> DefaultState()
+        is State.Error -> ErrorState(s.getErrorMessage())
+        is State.Loaded -> LoadedState(s.getData(), viewModel)
+        is State.IsLoading -> LoadState()
+        is State.Default -> DefaultState()
     }
 
 }
 
 @Composable
-private fun PhotoCard(photo: Photo, viewModel: MainViewModel<Photo>) {
+private fun PhotoCard(photo: Photo, viewModel: MainViewModel) {
     Column(
         verticalArrangement = Arrangement.Center,
         horizontalAlignment = Alignment.CenterHorizontally,
@@ -113,7 +113,7 @@ private fun PhotoCard(photo: Photo, viewModel: MainViewModel<Photo>) {
 }
 
 @Composable
-private fun LoadedState(state: List<Photo>, viewModel: MainViewModel<Photo>) {
+private fun LoadedState(state: List<Photo>, viewModel: MainViewModel) {
     LazyColumn(
         contentPadding = PaddingValues(vertical = 16.dp)
     ) {
@@ -167,7 +167,7 @@ private fun DefaultState() {
 }
 
 @Composable
-fun FloatingActionButton(viewModel: MainViewModel<Photo>) {
+fun FloatingActionButton(viewModel: MainViewModel) {
     return ExtendedFloatingActionButton(
         icon = { Icon(Icons.Filled.Search, contentDescription = "Find") },
         text = { Text(stringResource(R.string.find)) },
